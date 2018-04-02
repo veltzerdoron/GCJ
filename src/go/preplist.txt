@@ -1,0 +1,54 @@
+This is a checklist before at and after each stage of the contest
+
+Before:
+1. On the fs:
+    1. goto gcj/src
+    2. create a designated folder for the stage at year/stage (for instance 2018/qual)
+    3. copy an uptodate code placeholder into the folder for each of the problems (an update placeholder named X.py is maintained in this folder) and set the placeholders letter names according to the problems (A,B,C...), if you don't know the number of problems create extras as deleting them is easy (if you are using the go.py script and scraper js this part is automatic)
+2. On chrome
+    1. open settings and set the default download folder to the newly created stage folder
+    2. make sure the example scraper tool is installed (opens a popup notifications and inserts a button next to the codejam logo) if not:
+        1. make sure tampermonkey is installed
+        2. make sure the GCJ scraper script from this folder is set to operate on 'https://code.google.com/codejam/contest/*'
+        3. if all else fails debug the script (look for changes in the names of the elements that contain the examples)
+make sure you know
+3. To use the go.py script
+    1. make sure the codejam java command is working by:
+        1. 'codejam -i 4304486' - login to google 2016 contest on firefox
+        2. 'codejam -d -p A -t small' - download the first small input
+        3. if any of these don't work reinstall the client from https://github.com/Faylixe/googlecodejam-cli.git.
+    2. before a real GCJ starts run the process through some qual round to see that it works and remind one of the controls
+
+
+At start:
+1. On chrome
+    1. log into Google and go to the GCJ current stage site
+    2. press the scrape button next to the GCJ logo to download the in and example file
+    3. to run through the go.py script:
+        1. get the GCJ contest id
+        2. run the go script with required parameters (if you scraped the legend file the only parameter you really need is the contest ID)
+        3. you are good to go, read the questions and code in the code placeholders in order
+        4. the script will guide you as to when to code and what are the differences form the example output
+        5. when the example passes the diff checks you will be prompted to run through the small and large input submissions
+    4. to run without interaction with Google run go.py with the no interaction flag set to False
+    5. to run on full manual (I only recommend this if everything else seems to be defunct and time is pressing):
+        1. write code for the problems
+        2. once you think you have problem X coded check that it works for the example:
+            1. python X.py < X-definition-0.in > X-definition-9.out
+            2. diff -b -B X-definition.example X-definition-0.out (consider if you want to use -b -B?)
+            3. if successfull:
+                1. download small input and run python X.py < X-small.in > X-small.out
+                2. upload X-small.out
+                3. download large input and run python X.py < X-large.in > X-large.out
+                4. upload X-large.out
+                5. if the site marks the submissions as successfull move on to another problem
+        3. repeat the previous until all problems are solved or you run out of time
+    6. think fast
+
+After:
+1. review the code
+2. check that the legend and files are ok
+3. download othe peoples codes into the downloaded folder
+4. draw conclusions and update them below
+
+Conclusions:

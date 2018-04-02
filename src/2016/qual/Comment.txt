@@ -1,0 +1,3 @@
+Note that I made the search much quicker by assuming a number that has large divisors prime, its good enough as there are many jamcoins
+
+Also fixed a comment in the code
