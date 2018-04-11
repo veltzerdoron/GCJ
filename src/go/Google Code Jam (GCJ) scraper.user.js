@@ -6,9 +6,10 @@
 // @author       Veltzer Doron
 // @match        https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo/related?hl=en
 // @grant        none
-// @require    http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
-// @require    http://cdnjs.cloudflare.com/ajax/libs/sugar/1.3/sugar.min.js
-// @include    https://code.google.com/codejam/contest/*
+// @require      http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js
+// @require      http://cdnjs.cloudflare.com/ajax/libs/sugar/1.3/sugar.min.js
+// @include      https://code.google.com/codejam/contest/*
+// run-at        document-end
 // ==/UserScript==
 
 alert('Hello, GCJ scraping installed');
@@ -22,7 +23,7 @@ $(document).ready(function() {
     // download inputs and outputs as in and example files
     console.debug('downloading inputs and outputs as in and example files');
     var i = 0;
-    $('.problem-io-wrapper').each(function() {
+    $(window).on("hashchange",function(){
       var letter = String.fromCharCode('A'.charCodeAt(0) + i);
       console.debug("Google code jam problem " + letter + " \'s input and output");
       var j = 0;

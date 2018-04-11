@@ -81,7 +81,7 @@ def find_nums(nums):
             if not op2 in options: options.append(op2)
 
 
-nums = [1, 2, 2, 1]
+nums = [1, 2, 2, 1, 5]
 for n in set(find_nums([Num(n) for n in nums])):
     # if n!=50: continue
     print(n)
