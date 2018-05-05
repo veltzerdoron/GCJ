@@ -1,0 +1,25 @@
+def get_input():
+    return raw_input()
+
+num_lines = int(get_input())
+
+def get_max(cur_index, people_left, input_list, input_length, total_people, cur_dict = {}):
+    if (cur_index,people_left) in cur_dict:
+        return cur_dict[(cur_index,people_left)]
+    if cur_index == len(input_list):
+        cur_max = max(map(lambda x: round(x * 100 / total_people) + 
+                          get_max(cur_index,people_left - x, input_list, input_length, total_people,cur_dict), 
+                          xrange(1,people_left + 1)) + [0])
+    else:
+        cur_max = max(map(lambda x: round((input_list[cur_index] + x) * 100 / total_people) + 
+                          get_max(cur_index + 1,people_left - x, input_list, input_length, total_people,cur_dict), 
+                          xrange(people_left + 1)) + [0])
+    cur_dict[(cur_index,people_left)] = cur_max
+    return cur_max
+
+for line in xrange(num_lines):
+    cur_str = get_input()
+    (num_people, num_languages) = map(int,cur_str.split(" "))
+    cur_str = get_input()
+    cur_input = map(int, cur_str.split(" "))
+    print "Case #%d: %d" % (line + 1, get_max(0,num_people - sum(cur_input),cur_input, len(cur_input), float(num_people), {}))

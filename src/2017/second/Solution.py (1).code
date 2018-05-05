@@ -1,0 +1,47 @@
+def get_input():
+    return raw_input()
+
+num_lines = int(get_input())
+
+def craft(metal_num, stock, crafting, recipes):
+    if crafting[metal_num]:
+        return False
+    crafting[metal_num] = True
+    
+    if stock[recipes[metal_num][0]] == 0:
+        craft(recipes[metal_num][0], stock, crafting, recipes)
+    if stock[recipes[metal_num][0]] == 0:
+        return False
+    stock[recipes[metal_num][0]] -= 1
+    
+    if stock[recipes[metal_num][1]] == 0:
+        craft(recipes[metal_num][1], stock, crafting, recipes)
+    if stock[recipes[metal_num][1]] == 0:
+        stock[recipes[metal_num][0]] += 1
+        return False
+    stock[recipes[metal_num][1]] -= 1
+    stock[metal_num] += 1
+    crafting[metal_num] = False
+    
+    return True
+
+def solve():
+    num_metals = int(get_input())
+    recipes = []
+    for j in xrange(num_metals):
+        cur_recipe = map(int,get_input().split(" "))
+        cur_recipe[0] -= 1
+        cur_recipe[1] -= 1
+        recipes.append(cur_recipe)
+    
+    stock = map(int,get_input().split(" "))
+    crafting = [False] * len(stock)
+    cur_lead = stock[0]
+    stock[0] = 0
+    while craft(0, stock, crafting, recipes):
+        stock[0] = 0
+        cur_lead += 1
+    return cur_lead
+
+for j in xrange(num_lines):
+    print "Case #%d: %d" % (j+1, solve())

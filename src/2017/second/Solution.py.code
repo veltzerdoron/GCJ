@@ -1,0 +1,52 @@
+def get_input():
+    return raw_input()
+
+num_lines = int(get_input())
+
+def solve():
+    num_signs = int(get_input())
+    signs = []
+    for j in xrange(num_signs):
+        cur_line = map(int, get_input().split(" "))
+        cur_m = cur_line[0] + cur_line[1]
+        cur_n = cur_line[0] - cur_line[2]
+        signs.append((cur_m,cur_n))
+    res = []
+    for start_point in xrange(len(signs)):
+        cur_m = signs[start_point][0]
+        n_set = False
+        end_index = start_point + 1
+        while (end_index < len(signs)):
+            if signs[end_index][0] == cur_m:
+                end_index += 1
+            elif n_set:
+                if signs[end_index][1] == cur_n:
+                    end_index += 1
+                else:
+                    break
+            else:
+                n_set = True
+                cur_n = signs[end_index][1]
+        end_index_m = end_index - start_point
+                
+        cur_n = signs[start_point][1]
+        m_set = False
+        end_index = start_point + 1
+        while (end_index < len(signs)):
+            if signs[end_index][1] == cur_n:
+                end_index += 1
+            elif m_set:
+                if signs[end_index][0] == cur_m:
+                    end_index += 1
+                else:
+                    break
+            else:
+                m_set = True
+                cur_m = signs[end_index][0]
+        end_index_n = end_index - start_point
+        res.append(max(end_index_n,end_index_m))
+        
+    return (max(res),res.count(max(res)))
+
+for j in xrange(num_lines):
+    print "Case #%d: %d %d" % tuple([j + 1] + list(solve()))
