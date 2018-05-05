@@ -1,7 +1,5 @@
-Maintain the preplist.txt after I try it out on 2010B
-Add code in go.py to automatically generate the required number of code placeholders
-Get the Java client from le francais (says sometime in Feb)
-Finish implementing 2010A (improve & understand B & C)
-
-After this year upload what I have to github (add gitignore file for first commit)
+Add .gitignore
+Add a scraping JS for their new god damned interface
+Do some graph related riddle
+Push after I finish 2018
 
