@@ -1,5 +1,2 @@
-Add .gitignore
-Add a scraping JS for their new god damned interface
-Do some graph related riddle
 Push after I finish 2018
 
