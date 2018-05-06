@@ -1,12 +1,11 @@
 """
 @created: Dec 29, 2017
-@Edited: Feb 27, 2018
+@Edited: May 5, 2018
 @author: Doron Veltzer
 """
 
 import functools
 
-import numpy as np
 import fractions
 import math
 import re
@@ -33,7 +32,7 @@ def process_input_line(input_file,
         return output_vector
 
 
-#print debug output to standard error file (since we are using standard input and output)
+# print debug output to standard error file (since we are using standard input and output)
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
@@ -71,18 +70,44 @@ def solve(input_file, output_file, error_file):
 
     # iterate on all cases
     for i in range(t):
-        error_file.write('Solving problem #{}\n'.format(i + 1))
+        # error_file.write('Solving problem #{0}\n'.format(i + 1))
         # read input
+        n, l = process_input_line(input_file)
+
+        ws = [process_input_line(input_file, input_mapping=str) for _ in range(n)]
+        # error_file.write('{0}\n'.format(ws))
+
+        cs = [{ws[k][j] for k in range(n)} for j in range(l)]
+        # error_file.write('{0}\n'.format(cs))
+
+        def gen_word(j):
+            if j == l:
+                yield('')
+            else:
+                for c in cs[j]:
+                    # error_file.write('char {0}\n'.format(c))
+                    for suffix in gen_word(j + 1):
+                        yield(c + suffix)
 
         # print input
         # check input
 
         # calculate output
-        # set output
-        output = ""
+        j = 0
+        output = None
+        for word in gen_word(0):
+            # error_file.write('word {0}\n'.format(word))
+            if word not in ws:
+                # error_file.write('word {0}\n'.format(word))
+                output = word
+            j += 1
+            if j > n:
+                # error_file.write('none\n')
+                output = '-'
 
         # print output
-        output_file.write('Case #{}: {}\n'.format(i + 1, output))
+        # error_file.write('Output {0}\n'.format(output))
+        output_file.write('Case #{0}: {1}\n'.format(i + 1, output))
         output_file.flush()
 
 

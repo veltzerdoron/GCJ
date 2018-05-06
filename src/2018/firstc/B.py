@@ -1,15 +1,15 @@
 """
 @created: Dec 29, 2017
-@Edited: Feb 27, 2018
+@Edited: May 5, 2018
 @author: Doron Veltzer
 """
 
 import functools
 
-import numpy as np
 import fractions
 import math
 import re
+import random
 
 import sys
 
@@ -33,7 +33,7 @@ def process_input_line(input_file,
         return output_vector
 
 
-#print debug output to standard error file (since we are using standard input and output)
+# print debug output to standard error file (since we are using standard input and output)
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
@@ -71,19 +71,44 @@ def solve(input_file, output_file, error_file):
 
     # iterate on all cases
     for i in range(t):
-        error_file.write('Solving problem #{}\n'.format(i + 1))
-        # read input
+        # error_file.write('Solving problem #{0}\n'.format(i + 1))
+        # interactive
+        n = process_input_line(input_file)
 
-        # print input
-        # check input
+        ls, favs = [True] * n, [0] * n
+        for j in range(n):
+            # print input
+            read = process_input_line(input_file)
+            if read == -1:
+                exit()
+            if read == 0:
+                # print output
+                output_file.write('{}\n'.format(-1))
+            else:
+                d, *fs = read
+                # increment favorites
+                for f in fs:
+                    favs[f] += 1
 
-        # calculate output
-        # set output
-        output = ""
+                # get least favorite flavor
+                cans = [favs[f] for f in fs if ls[f]]
+                # error_file.write('Can loli #{0}\n'.format(cans))
 
-        # print output
-        output_file.write('Case #{}: {}\n'.format(i + 1, output))
-        output_file.flush()
+                if cans:
+                    mincans = [f for f in fs if favs[f] == min(cans) and ls[f]]
+                    s = random.choice(mincans)
+
+                    ls[s] = False
+                    # error_file.write('Dealing loli #{0}\n'.format(s))
+                    # print output
+                    output_file.write('{}\n'.format(s))
+                else:
+                    # error_file.write('No loli for you!\n')
+                    # print output
+                    output_file.write('{}\n'.format(-1))
+
+            # flush output
+            output_file.flush()
 
 
 if __name__ == "__main__":

@@ -1,15 +1,15 @@
 """
 @created: Dec 29, 2017
-@Edited: Feb 27, 2018
+@Edited: May 5, 2018
 @author: Doron Veltzer
 """
 
 import functools
 
-import numpy as np
 import fractions
 import math
 import re
+from collections import OrderedDict
 
 import sys
 
@@ -33,7 +33,7 @@ def process_input_line(input_file,
         return output_vector
 
 
-#print debug output to standard error file (since we are using standard input and output)
+# print debug output to standard error file (since we are using standard input and output)
 def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
@@ -71,15 +71,40 @@ def solve(input_file, output_file, error_file):
 
     # iterate on all cases
     for i in range(t):
-        error_file.write('Solving problem #{}\n'.format(i + 1))
+        # error_file.write('Solving problem #{0}\n'.format(i + 1))
         # read input
+        n = process_input_line(input_file)
+        ws = process_input_line(input_file)
 
         # print input
+        # error_file.write('input {0} sized weights {1}\n'.format(n, ws))
         # check input
 
         # calculate output
+        stacks = [(0, 0)]
+
+        for j in range(n):
+            next_stacks = stacks[:]
+            for w, l in stacks:
+                if w <= 6 * ws[j]:
+                    # remove tuples where w1 > w2 and l1 < l2
+                    w1, l1 = ws[j] + w, l + 1
+                    # error_file.write('Trying {0}, {1}\n'.format(w1, l1))
+                    for w2, l2 in stacks:
+                        if w2 <= w1 and l2 >= l1:
+                            # error_file.write('Found {0}, {1}\n'.format(w2, l2))
+                            # error_file.write('While adding {0}, {1}\n'.format(w1, l1))
+                            break
+                        if w2 >= w1 and l2 <= l1:
+                            # error_file.write('Removing {0}, {1}\n'.format(w2, l2))
+                            next_stacks.remove((w2, l2))
+                    else:
+                        # error_file.write('Added {0}, {1}\n'.format(w1, l1))
+                        next_stacks.append((w1, l1))
+            stacks = next_stacks
+
         # set output
-        output = ""
+        output = str(max([l for _, l in stacks]))
 
         # print output
         output_file.write('Case #{}: {}\n'.format(i + 1, output))
