@@ -1,8 +1,5 @@
-['OL', 'L']
-Case #1: 2
-[]
+Case #1: 0
 Case #2: 0
-['JAM', 'AM', 'M']
-Case #3: 6
-['I']
+Case #3: 7
 Case #4: 2
+Case #5: 0

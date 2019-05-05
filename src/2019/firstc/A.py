@@ -1,34 +1,41 @@
 for t in range(int(input())):
-  p, q = map(int, input().split())
+  a = int(input())
   
-  bins = [[0 for _ in range(q)] for _ in range(q)]
-  for _ in range(p):
-    x, y, d = input().split()
-    x = int(x)
-    y = int(y)
-    print(x,y,d)
-    if d == 'N':
-      for i in range(q):
-        for j in range(y + 1, q):
-          bins[i][j] += 1 
-    if d == 'S':
-      for i in range(q):
-        for j in range(y):
-          bins[i][j] += 1
-    if d == 'E':
-      for i in range(x + 1, q):
-        for j in range(q):
-          bins[i][j] += 1
-    if d == 'W':
-      for i in range(x):
-        for j in range(q):
-          bins[i][j] += 1
+  cis = ['0'] * a 
+  for i in range(a):
+    cis[i] = input()
+  
+  answer = ""
+  
+  pis = [0] * a
+  valids = set(list(range(a)))
+  for _ in range(500):
+    RPS = set([cis[i][pis[i]] for i in valids])
 
-    for col in bins:
-        print(col)
-  cols_max = [max(c) for c in bins]
-  i = cols_max.index(max(cols_max))
-  col = bins[i]
-  j = col.index(max(col))
+    if len(RPS) == 3:
+      answer = "IMPOSSIBLE"
+      break
+    if len(RPS) == 2:
+      if 'R' not in RPS:
+        answer += 'S'
+        valids = [i for i in valids if cis[i][pis[i]] == 'S']
+      elif 'P' not in RPS:
+        answer += 'R'
+        valids = [i for i in valids if cis[i][pis[i]] == 'R']
+      elif 'S' not in RPS:
+        answer += 'P'
+        valids = [i for i in valids if cis[i][pis[i]] == 'P']
+      for i in valids:
+        pis[i] = ((pis[i] + 1) % len(cis[i]))
+    if len(RPS) == 1:
+      if 'R' in RPS:
+        answer += 'P'
+      elif 'P' in RPS:
+        answer += 'S'
+      elif 'S' in RPS:
+        answer += 'R'
+      break
+  else:
+    answer = "IMPOSSIBLE"
+  print('Case #{n}: {answer}'.format(n = t + 1, answer=answer))
 
-  print('Case #{n}: {x} {y}'.format(n = t + 1, x=i, y=j))
