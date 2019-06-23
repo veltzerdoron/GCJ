@@ -1,17 +1,17 @@
-t = int(input())
+from sys import stdout
 
-for i in range(t):
-    N, B, F = map(int, input().split())
+num_cases = int(input())
 
-    j = 1
+for case_idx in range(num_cases):
+    n, b, f = map(int, input().split())
+    k = min(b.bit_length() + 1, f)
     queries = [
-        (("0" * j + "1" * j) * (N // j + 1))[:N] 
-        for j in [2 ** k for k in range(min(B.bit_length() + 1, F))]
+        (("0" * (1 << i) + "1" * (1 << i)) * -(-n >> i + 1))[:n] for i in range(k)
     ]
-
     responses = []
     for query in queries:
         print(query)
+        stdout.flush()
         responses.append(input())
     query_it = zip(*queries)
     response_it = zip(*responses)
@@ -21,7 +21,7 @@ for i in range(t):
         if query_col == response_col:
             response_col = next(response_it, None)
         else:
-            broken.append(j )
+            broken.append(j)
     print(*broken)
-
+    stdout.flush()
     input()
