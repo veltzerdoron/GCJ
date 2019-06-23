@@ -1,61 +1,53 @@
-import sys
+from fractions import *
 
-def getChildren(parent):
-  grid = tuple(parent)
-  ret = []
-  r = len(grid)
-  c = len(grid[0])
-  if r == 0 or c == 0:
-    return []
-  for i in range(r):
-    if all([grid[i][j] != "#" for j in range(c)]):
-      A = grid[:i]
-      B = grid[i + 1:]
-      child = [A, B]
-      ret.append(child)
-  for j in range(c):
-    if all([grid[i][j] != "#" for i in range(r)]):
-      A = [grid[i][:j] for i in range(r)]
-      B = [grid[i][j + 1:] for i in range(r)]
-      child = [tuple(A), tuple(B)]
-      ret.append(child)
-  return ret
+T = int(input())
+for t in range(T):
+  n = int(input())
+  a = []
+  for i in range(n):
+    a.append([int(i) for i in input().split(' ')])
 
-def NimSum(a, b):
-  i = 0
-  ans = 0
-  while a + b > 0:
-    ans += (2 ** i) * ((a + b) % 2)
-    a //= 2
-    b //= 2
-    i += 1
-  return ans
-
-nim = {}
-nim[()] = (0, 0)
-
-def GetNim(grid):
-  if grid not in nim:
-    children = getChildren(grid)
-    if len(children) == 0:
-      nim[grid] = (0, 0)
+  intersections = set()
+  inf = 10 ** 20
+  lower, upper = Fraction(0), Fraction(inf, 1)
+  impossible = False
+  for i in range(len(a) - 1):
+    x1, y1 = a[i]
+    x2, y2 = a[i + 1]
+    if y1 == y2:
+      if x1 >= x2:
+        impossible = True
+        break
+    elif y1 > y2:
+      upper = min(upper, Fraction(x2 - x1, y1 - y2))
     else:
-      A = [0] * 100
-      for child in children:
-        a, x = GetNim(child[0])
-        b, x = GetNim(child[1])
-        c = NimSum(a ,b)
-        if len(child[0]) == len(grid):
-          A[c] += len(grid)
+      lower = max(lower, Fraction(x2 - x1, y1 - y2))
+
+  if not impossible and 0 <= lower < upper:
+    if upper == Fraction(inf, 1):
+      de = 1
+    else:
+      mean = (lower + upper) / 2
+      left = 0
+      right = 10 ** 20
+      while left + 1 < right:
+        mid = (left + right) // 2
+        tmp = mean.limit_denominator(mid)
+        if lower < tmp < upper:
+          right = mid
         else:
-          A[c] += len(grid[0])
-      nim[grid] = (A.index(0), A[0])
-  return nim[grid]
-
-
-for t in range(int(input())):
-    r, c = map(int, input().split())
-    grid = tuple([input() for _ in range(r)])
-    _, ans = GetNim(grid)
-    print("Case #{case}: {answer}".format(case=t + 1, answer=ans))
-
+          left = mid
+      de = right
+    lower = lower * de
+    upper = upper * de
+    for i in range(int(lower) - 5, int(upper) + 5):
+      if lower < i < upper:
+        nu = i
+        break
+  else:
+    impossible = True
+  if impossible:
+    result = 'IMPOSSIBLE'
+  else:
+    result = '{} {}'.format(de, nu)
+  print('Case #{case}: {result}'.format(case= t + 1, result=result))

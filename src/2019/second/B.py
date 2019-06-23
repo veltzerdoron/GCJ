@@ -1,29 +1,34 @@
-import sys
-from collections import Counter
+from sys import stdout
+from heapq import heappush, heappop
 
-T, F = map(int, input().split())
-for t in range(T):
-  answer = ""
+def put(i, v, D):
+    _ = input()
+    D[0] -= 1
+    print(i+1, v)
+    stdout.flush()
 
-  valid_sets = list(range(119))
+P, V = 100, 20
+N, S = 60, 14
+assert(N + V < P)
+for case in xrange(int(input())):
+    D = [P]
 
-  figures = ['Z'] * 120
+    # day 1 ~ N
+    for i in xrange(N):  # sabotage
+        put(i%S, 1, D)
 
-  for i in range(4):
-    for s in valid_sets:
-      print('{pos}'.format(pos=i + s * 5 + 1))
-      sys.stdout.flush()
-      figures[s] = input()
-
-    count = Counter([figures[s] for s in valid_sets] + [c for c in set("ABCDE") - set(answer)])
-
-    figure_i = min(count, key=count.get)
-    answer += figure_i
-    valid_sets = [s for s in valid_sets if figures[s] == figure_i]
-
-  answer = answer + next(iter(set('ABCDE') - set(answer)))
-
-  print(answer)
-  sys.stdout.flush()
-  input()
-sys.exit()
+    # day N+1 ~ N+V
+    min_heap = []
+    for i in xrange(V):  # inspect
+        put(i, 0, D)
+        heappush(min_heap, (len(raw_input().strip().split()), -i))
+    
+    # day N+V+1 ~ P-1
+    candidate = -heappop(min_heap)[1]
+    while D[0] > 1:  # sabotage
+        count, i = heappop(min_heap)
+        put(-i, 1, D)
+        heappush(min_heap, (count+1, i))
+ 
+    # day P
+    put(candidate, P, D)
