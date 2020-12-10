@@ -2,6 +2,8 @@
 
 Automation scratching and riddle solutions for Google's Code Jam contests from 2010-2018 (where they moved to the online interactive session)
 
+And solutions to the online submissions I did from 2019-2020
+
 ### Prerequisites
 
 python 3 (not using anything (non standard that is))
@@ -63,9 +65,6 @@ The go folder under src, also includes a template X.py program that was used as 
 
 Installation is quite easy but once installed a button will appear once you open the contest page, pressing seth button will download all input/output files 
 
-### codin
-
-PEP 8 bug knock yourself out
 
 ## License
 
@@ -75,5 +74,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * Hat tip to anyone who's code was used (Faylixe, that means you)
 * Inspiration
-* etc
+* etc...
 
