@@ -1,39 +1,32 @@
-'''
-Created on May 22, 2011
+T = int(input())
+for t in range(T):
+    X, Y, S = input().split()
+    X = int(X)
+    Y = int(Y)
+    S = str(S)
 
-@author: doronv
-'''
-
-def solve(inputFile, outputFile):
-    # read case number
-    T = int(inputFile.readline())
-    
-    # iterate on all cases
-    for t in xrange(T):
-        # get L, d, N and C (I call t, d to avoid name conflicts)
-        values = inputFile.readline().split(' ')
-        N = int(values[0])
-        S = int(values[1])
-        p = int(values[2])
-
-        # get Tjs
-        Tjs = [(int(values[3 + c])) for c in xrange(N)]
-
-        listTjs = list(Tjs)
-        listTjs.sort(None, None, True)
-
-        # accumulate successfulGooglers
-        successfulGooglers = 0
-        for j in listTjs:
-            if (j >= 3 * p - 2):
-                # no need for an irregular result
-                successfulGooglers = successfulGooglers + 1
-            elif ((j >= 3 * p - 4) and (S > 0) and (p > 1)):
-                successfulGooglers = successfulGooglers + 1
-                S = S - 1;
-            else:
-                break;
-
-        # output case result
-        OutputLine = 'Case #' + str(t + 1) + ': ' + str(successfulGooglers) + '\n'
-        outputFile.write(OutputLine)
+    price = 0
+    counter = 0
+    last = '?'
+    for s in S:
+        if s == '?':
+            counter += 1
+            if counter == 1:
+                if last == 'C' and X < 0:
+                    price += X
+                    last = 'J'
+                    counter = 0
+                if last == 'J' and Y < 0:
+                    price += Y
+                    last = 'C'
+                    counter = 0
+            if X + Y < 0 and counter == 2:
+                price += X + Y
+                counter = 0
+            continue
+        if s == 'J' and last == 'C':
+            price += X
+        if s == 'C' and last == 'J':
+            price += Y
+        last = s
+    print("Case #{n}: {price}".format(n=t + 1, price=price))
